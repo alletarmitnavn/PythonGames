@@ -3,10 +3,20 @@ import random
 import time
 class Ball:
     def __init__(self, canvas,paddle, color):
-        self.hit_bottom = False
         self.canvas = canvas
         self.paddle = paddle
-        self.id = canvas.create_oval(10, 10, 25, 25, fill=color)
+        self.color = color
+        self.canvas.bind_all('<KeyPress-Up>', self.restart)
+        self.reset()
+
+    def restart(self, evt):
+        if self.hit_bottom == True:
+           self.reset() 
+        
+        
+    def reset(self):
+        self.hit_bottom = False
+        self.id = canvas.create_oval(10, 10, 25, 25, fill=self.color)
         self.canvas.move(self.id, 245, 100)
         starts = [-3, -2, -1, 1, 2, 3]
         random.shuffle(starts)
@@ -34,6 +44,7 @@ class Ball:
         if pos[3] >= 400:
             self.hit_bottom = True
             self.canvas.create_text(220, 200, text='game over', font=('Courier', 30),fill='red')
+        
 
 
 class Paddle:
